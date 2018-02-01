@@ -22,6 +22,7 @@ import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.PopupWindow;
 
@@ -241,6 +242,13 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
         linearGradientView.setLayoutParams(param);
         linearGradientView.setFrameColor(CORNER_COLOR);
 
+//
+//        Button b = new Button(activity);
+//        ViewGroup.LayoutParams backButtonParams = new LayoutParams(150, 150);
+//        b.setLayoutParams(backButtonParams);
+//        b.setText("asfadsfasdf");
+//        b.setTextColor(Color.WHITE);
+//        this.addView(b);
 
 //        decodeFormats = null;
         characterSet = null;

@@ -91,13 +91,13 @@ public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
     }*/
 
 
-  /*  @ReactProp(name = "scannerRectCornerWidth", defaultInt = 4)
+  @ReactProp(name = "scannerRectCornerWidth", defaultInt = 4)
     public void setCORNER_WIDTH(CaptureView view, int CORNER_WIDTH) {
         if(CORNER_WIDTH<4){
             CORNER_WIDTH=4;
         }
         view.setCORNER_WIDTH(CORNER_WIDTH);
-    }*/
+    }
 
    /* @ReactProp(name = "scannerLineWidth", defaultInt = 3)
     public void setMIDDLE_LINE_WIDTH(CaptureView view, int MIDDLE_LINE_WIDTH) {
