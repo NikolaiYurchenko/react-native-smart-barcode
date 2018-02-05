@@ -59,35 +59,27 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     private int height;
     private int width;
     public boolean decodeFlag = true;
-    /**
-     * 缩放级别拖动条
-     */
+   
     private Handler mHandler;
-    /**
-     * 当前缩放级别  默认为0
-     */
+    
     private int mZoom = 0;
-    /**
-     * react-native 设置属性
-     */
-    private int cX;//X轴偏移
-    private int cY;//Y轴偏移
-    private int CORNER_WIDTH;//四个对应角宽度
+    
+    private int cX;
+    private int cY;
+    private int CORNER_WIDTH;
     private int CORNER_LENGTH;
     private int RXY;
-    private int MIDDLE_LINE_WIDTH = 0;//扫描线宽度
+    private int MIDDLE_LINE_WIDTH = 0;
     private int CORNER_COLOR = Color.GREEN;
-    private int Min_Frame_Width;//扫描框最小单位
-    //框的颜色
-    private String Text = "";//扫描框显示的文字
-    //扫描框宽
+    private int Min_Frame_Width;
+    
+    private String Text = "";
+    
     private int MAX_FRAME_WIDTH;
-    //扫描框高
+    
     private int MAX_FRAME_HEIGHT;
     private float density;
-    /**
-     * s扫码横线的移动时间
-     */
+   
     public int scanTime = 1000;
     private long changeTime = 1000;
     private int focusTime = 1000;
@@ -98,7 +90,7 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     private PopupWindow popupWindow;
     private LinearGradientView linearGradientView;
     SurfaceTexture surfaceTexture;
-    boolean autoStart = true;//是否自动启动扫描
+    boolean autoStart = true;
     String ResultStr="";
 
 
@@ -114,7 +106,7 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
             //setZoom(progress);
 
             mHandler.removeCallbacksAndMessages(progressBar);
-            //ZOOM模式下 在结束四秒后隐藏seekbar 设置token为mZoomSeekBar用以在连续点击时移除前一个定时任务
+            
             mHandler.postAtTime(new Runnable() {
 
                 @Override
@@ -202,7 +194,7 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     }*/
     
     /**
-     * Activity onResume后调用view的onAttachedToWindow
+     * Activity onResume
      */
     @Override
     protected void onAttachedToWindow() {
@@ -211,7 +203,7 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     }
 
     /**
-     * surfaceview 扫码框 声音管理
+     * surfaceview 
      */
     private void init() {
         if (mHandler == null) {
@@ -257,7 +249,7 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 //        progressBar = new VerticalSeekBar(activity);
       /*  popupWindowContent = View.inflate(activity, R.layout.seekbar_layout, null);
         progressBar = (VerticalSeekBar) popupWindowContent.findViewById(R.id.verticalSeekBar);
-        // 给progressbar准备一个FrameLayout的LayoutParams
+        
 
 
         progressBar.setIndeterminate(false);
@@ -268,7 +260,7 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 //
 
       /*
-       //渐变色drawable
+       
        int[] mColors=  new int[]{Color.WHITE,Color.BLUE};
         GradientDrawable drawable=new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,mColors);
         drawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
@@ -282,13 +274,13 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
                 .getNumberOfLayers()];
         for (int i = 0; i < progressDrawable.getNumberOfLayers(); i++) {
             switch (progressDrawable.getId(i)) {
-                case android.R.id.background:// 设置进度条背景
+                case android.R.id.background:
                     outDrawables[i] = getResources().getDrawable(R.drawable.seek_bkg);
                     break;
-                case android.R.id.secondaryProgress:// 设置二级进度条
+                case android.R.id.secondaryProgress:
                     outDrawables[i] = getResources().getDrawable(R.drawable.seek);
                     break;
-                case android.R.id.progress:// 设置进度条
+                case android.R.id.progress:
                     ClipDrawable oidDrawable = (ClipDrawable) progressDrawable
                             .getDrawable(i);
                     Drawable drawable=getResources().getDrawable(R.drawable.seek);
@@ -311,7 +303,7 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 //        progressBar.setMinimumHeight(20);
 
 
-        //获取当前照相机支持的最大缩放级别，值小于0表示不支持缩放。当支持缩放时，加入拖动条。
+        
         int maxZoom = getMaxZoom();
         if (maxZoom > 0) {
 //            progressBar.setMax(maxZoom);
@@ -335,13 +327,13 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
             LayoutParams progresslp = new LayoutParams(
                     120,
                     MAX_FRAME_HEIGHT);
-            // 设置对其方式为：屏幕居中
+            
             int leftMargin = (width / 2) + cX + MAX_FRAME_WIDTH / 2;
             int topMargin = height / 2 + cY / 2 - MAX_FRAME_HEIGHT;
 //        progresslp.gravity = Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL;
 //            progressBar.setLayoutParams(param);
 
-            // 创建PopupWindow实例,200,LayoutParams.MATCH_PARENT分别是宽度和高度
+            // PopupWindow, 200,LayoutParams.MATCH_PARENT
             popupWindow = new PopupWindow(CaptureView.this);
 *//*            popupWindow.setWidth((int) (20 * density));
             popupWindow.setHeight(MAX_FRAME_HEIGHT-CORNER_WIDTH*2);
@@ -396,10 +388,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
         startScan();
     }
 
-    /**
-     * ondestroy调用,会执行onDetachedFromWindow
-     */
-
     @Override
     protected void onDetachedFromWindow() {
         this.removeView(viewfinderView);
@@ -437,19 +425,19 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 
     public void handleDecode(Result obj, Bitmap barcode) {
 
-//        viewfinderView.drawResultBitmap(barcode);//画结果图片
+//        viewfinderView.drawResultBitmap(barcode);
 
         if (obj != null&& this.decodeFlag) {
             playBeepSoundAndVibrate();
-            String str = obj.getText();//获得扫码的结果
+            String str = obj.getText();
         /*
-        activity.getCapturePackage().mModuleInstance.sendMsgToRn(str); //发送到RN侧*/
-            onEvChangeListener.getQRCodeResult(str,obj.getBarcodeFormat()); //观察者模式发送到RN侧
+        activity.getCapturePackage().mModuleInstance.sendMsgToRn(str); 
+            onEvChangeListener.getQRCodeResult(str,obj.getBarcodeFormat()); 
         }
         stopQR();
 
 
-//        viewfinderView.drawResultBitmap(null);//清除结果图片
+//        viewfinderView.drawResultBitmap(null);
 
         /*
         try {
@@ -466,7 +454,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 
 
     /**
-     * 返回数据
      *
      * @param intent
      * @return
@@ -504,7 +491,7 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
         if (playBeep && mediaPlayer != null) {
             mediaPlayer.start();
         }
-        //抖动机身
+        
       /*  if (vibrate) {
             Vibrator vibrator = (Vibrator) activity.getSystemService(activity.VIBRATOR_SERVICE);
             vibrator.vibrate(VIBRATE_DURATION);
@@ -628,11 +615,11 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
         super.onWindowFocusChanged(hasWindowFocus);
 
         if (hasWindowFocus) {
-            //对应onresume
+            //onresume
             this.surfaceTexture = textureView.getSurfaceTexture();
             startScan();
         } else {
-            //对应onpause
+            //onpause
             stopScan();
         }
 
@@ -643,7 +630,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     }
 
     /**
-     * 设置扫描线运动时间
      *
      * @param scanTime
      */
@@ -664,8 +650,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     }
 
     /**
-     * 设置四个角的颜色
-     *
      * @param CORNER_WIDTH
      */
     public void setCORNER_WIDTH(int CORNER_WIDTH) {
@@ -702,9 +686,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
         }
     }
 
-    /**
-     * 开启闪光灯常亮
-     */
     public void OpenFlash(){
         try {
             Camera.Parameters param =CameraManager.get().getCamera().getParameters();
@@ -715,9 +696,8 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }  /**
-     * 关闭闪光灯常亮
-     */
+    } 
+
     public void CloseFlash(){
         try {
             Camera.Parameters param = CameraManager.get().getCamera().getParameters();
@@ -732,14 +712,12 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     }
 
     /**
-     * RN调用方法
-     * 改变扫描框大小
      *
      * @param WIDTH
      * @param HEIGHT
      */
     public void setCHANGE_WIDTH(final int WIDTH, final int HEIGHT) {
-        //属性动画
+        
 //        Toast.makeText(activity, "width" + WIDTH, Toast.LENGTH_SHORT).show();
         if (viewfinderView != null) {
 
@@ -798,9 +776,7 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
                     CameraManager.get().MAX_FRAME_WIDTH = MAX_FRAME_WIDTH;
                     CameraManager.get().MAX_FRAME_HEIGHT = MAX_FRAME_HEIGHT;
 
-//                    Log.i("Test", "width:" + width + ",height:" + height);
-//                    Log.i("Test", "cX:" + cX + ",cY:" + cY);
-//                    Log.i("Test", "MAX_FRAME_WIDTH:" + MAX_FRAME_WIDTH + ",MAX_FRAME_HEIGHT:" + MAX_FRAME_HEIGHT);
+
 
                     CameraManager.get().framingRectInPreview = null;
 //                    decodeFormats = null;
@@ -872,15 +848,9 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 
     private final class TouchListener implements OnTouchListener {
 
-        /**
-         * 放大缩小照片模式
-         */
+        
         private static final int MODE_ZOOM = 1;
-        private int mode = MODE_ZOOM;// 初始状态
-
-        /**
-         * 用于记录拖拉图片移动的坐标位置
-         */
+        private int mode = MODE_ZOOM;
 
         private float startDis;
 
@@ -888,9 +858,7 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
         @Override
         public boolean onTouch(View v, MotionEvent event) {
 
-            /** 通过与运算保留最后八位 MotionEvent.ACTION_MASK = 255 */
             switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                // 手指压下屏幕
                 case MotionEvent.ACTION_DOWN:
                     mode = MODE_ZOOM;
                     startDis = event.getY();
@@ -900,33 +868,15 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 //                    int leftMargin = (width / 2) + cX + MAX_FRAME_WIDTH/2-(int)(25*density);
                     int leftMargin = cX / 2 + MAX_FRAME_WIDTH / 2 - (int) (25 * density);
                     int topMargin = cY / 2 - (int) (25 * density);
-/**
- * 显示seekbar
- */
+
 //                    popupWindow.showAtLocation(v, Gravity.CENTER, leftMargin,topMargin);
 
                     break;
-             /*   case MotionEvent.ACTION_POINTER_DOWN:
-                    //如果mZoomSeekBar为null 表示该设备不支持缩放 直接跳过设置mode Move指令也无法执行
-                    if (seekbar == null) return true;
-                    //移除token对象为mZoomSeekBar的延时任务
-                    mHandler.removeCallbacksAndMessages(seekbar);
-                    seekbar.setVisibility(View.VISIBLE);
 
-                    mode = MODE_ZOOM;
-                    *//** 计算两个手指间的距离 *//*
-                    startDis = distance(event);
-                    break;*/
                 case MotionEvent.ACTION_MOVE:
-
-                    /**
-                     * 控制设置zoom没16毫秒触发,不到时间不触发
-                     */
-
                     if (mode == MODE_ZOOM) {
-                        /* //只有同时触屏两个点的时候才执行
-                        if(event.getPointerCount()<2) return true;*/
-                        float endDis = startDis - event.getY();// 结束距离
+
+                        float endDis = startDis - event.getY();
 
 
                         int scale = (int) (endDis / (ScreenHeight / getMaxZoom()));
@@ -938,9 +888,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
                         }
 //                        Log.i("Test", "scale:" + scale);
 
-                        /**
-                         * 处理时间
-                         */
                         long endTime = System.currentTimeMillis();
 
                         long time = endTime - beginTime;
@@ -949,59 +896,30 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 
                         if (scale >= 1 || scale <= -1) {
                             int zoom = getZoom() + scale;
-                            //zoom不能超出范围
+
                             if (zoom > getMaxZoom()) zoom = getMaxZoom();
                             if (zoom < 0) zoom = 0;
 //                            Log.i("Test", "zoom:" + zoom + ",Time:" + time);
                             setZoom(zoom);
 //                            progressBar.setProgress(zoom);
-                            //将最后一次的距离设为当前距离
+
 //                            startDis = endDis;
                         }
                     }
                     break;
-                // 手指离开屏幕
+
                 case MotionEvent.ACTION_UP:
 
-                    /*if(mode!=MODE_ZOOM){
-                        //设置聚焦
-                        Point point=new Point((int)event.getX(), (int)event.getY());
-                        mCameraView.onFocus(point,autoFocusCallback);
-                        mFocusImageView.startFocus(point);
-                    }else {*/
-                    //ZOOM模式下 在结束两秒后隐藏seekbar 设置token为mZoomSeekBar用以在连续点击时移除前一个定时任务
-
-					/*mHandler.postAtTime(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-                            if(popupWindow.isShowing()){
-                                popupWindow.dismiss();
-                            }
-						}
-					}, progressBar,SystemClock.uptimeMillis()+5000);
-//                    }*/
                     break;
             }
             return true;
         }
 
-//        /**
-//         * 计算两个手指间的距离
-//         */
-//        private float distance(MotionEvent event) {
-//            float dx = event.getX(1) - event.getX(0);
-//            float dy = event.getY(1) - event.getY(0);
-//            /** 使用勾股定理返回两点之间的距离 */
-//            return (float) Math.sqrt(dx * dx + dy * dy);
-//        }
+
 
     }
 
     /**
-     * 获取最大缩放级别，最大为40
-     *
      * @return
      */
 
@@ -1016,16 +934,13 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     }
 
     /**
-     * 设置相机缩放级别
-     *
      * @param zoom
      */
 
     public void setZoom(int zoom) {
 
         Camera.Parameters parameters;
-        //注意此处为录像模式下的setZoom方式。在Camera.unlock之后，调用getParameters方法会引起android框架底层的异常
-        //stackoverflow上看到的解释是由于多线程同时访问Camera导致的冲突，所以在此使用录像前保存的mParameters。
+
         if (CameraManager.get().getCamera() != null) {
             parameters = CameraManager.get().getCamera().getParameters();
             if (!parameters.isZoomSupported()) return;
@@ -1062,10 +977,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     }
 
 
-
-    /**
-     * 颜色换算
-     */
     public int reSetColor(int startInt) {
 
         int startA = (startInt >> 24) & 0xff;

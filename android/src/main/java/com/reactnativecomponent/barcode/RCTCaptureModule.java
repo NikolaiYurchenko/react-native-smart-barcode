@@ -34,7 +34,6 @@ public class RCTCaptureModule extends ReactContextBaseJavaModule {
     }
 
 //    public void sendMsgToRn(String msg) {
-//        //将消息msg发送给RN侧
 //        mContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("AndroidToRNMessage", msg);
 //
 //    }
@@ -136,7 +135,6 @@ public class RCTCaptureModule extends ReactContextBaseJavaModule {
                     try {
                     String s = Environment.getExternalStorageDirectory()
                             .getAbsolutePath() + "/" + "IMG_20161011_170552.jpg";
-                    //不加这个分号则不能自动添加代码
 
                     String ResultStr = DecodeUtil.getStringFromQRCode(s);
                         successCallback.invoke(ResultStr);

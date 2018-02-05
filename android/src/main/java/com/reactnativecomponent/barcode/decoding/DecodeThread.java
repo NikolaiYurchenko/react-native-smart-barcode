@@ -44,7 +44,7 @@ final class DecodeThread extends Thread {
   private final CaptureView captureView;
   private final Hashtable<DecodeHintType, Object> hints;
   private DecodeHandler handler;
-  private final CountDownLatch handlerInitLatch;//到计数的锁
+  private final CountDownLatch handlerInitLatch;
   public boolean flag=true;
 
   DecodeThread(CaptureView captureView,
@@ -53,7 +53,7 @@ final class DecodeThread extends Thread {
                ResultPointCallback resultPointCallback) {
 //    Log.i("Test", "DecodeThread create");
     this.captureView = captureView;
-    handlerInitLatch = new CountDownLatch(1);//从1开始到计数
+    handlerInitLatch = new CountDownLatch(1);
 
     hints = new Hashtable<DecodeHintType, Object>(3);
 
@@ -90,7 +90,7 @@ final class DecodeThread extends Thread {
 
   Handler getHandler() {
     try {
-      handlerInitLatch.await();//阻塞先等handler被初始化了才能返回结果。改计数锁即等countdown-->0。
+      handlerInitLatch.await();
     } catch (InterruptedException ie) {
       // continue?
     }
@@ -102,8 +102,8 @@ final class DecodeThread extends Thread {
 
     Looper.prepare();
       handler = new DecodeHandler(captureView, hints);
-      handlerInitLatch.countDown();//启动到计数，countdown-1 变成0；
-//    Log.i("Test","The worker thread id = " +   Thread.currentThread().getId()); //判断线程ID
+      handlerInitLatch.countDown();
+//    Log.i("Test","The worker thread id = " +   Thread.currentThread().getId()); 
     Looper.loop();
 
   }

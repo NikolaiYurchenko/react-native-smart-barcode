@@ -45,98 +45,66 @@ import java.util.HashSet;
  */
 public final class ViewfinderView extends View
 {
-    /**扫描页面透明度*/
+    
     private static final int[] SCANNER_ALPHA = { 0, 64, 128, 192, 255, 192,
             128, 64 };
-    /**动画延迟*/
+    
     private static final long ANIMATION_DELAY = 10L;
-    private static final int OPAQUE = 0xFF;//不透明
+    private static final int OPAQUE = 0xFF;
 
-    /**
-     * 四个蓝色边角对应的长度
-     */
+   
     private int ScreenRate;
 
-    /**
-     * 四个蓝色边角对应的宽度
-     */
+    
         public int CORNER_WIDTH = 3;
 
         public int CORNER_LENGTH = 5;
                 /**Corner radius */
         public int RXY = 2;
-    /**
-     * 扫描框中的中间线的宽度
-     */
+    
     private int MIDDLE_LINE_WIDTH = 3;
-
-    /**
-     * 扫描框中的中间线的与扫描框左右的间隙
-     */
+    
     private static final int MIDDLE_LINE_PADDING = 5;
 
-    /**
-     * 中间那条线每次刷新移动的距离
-     */
     private static int SPEEN_DISTANCE = 3;
 
-    /**
-     * 手机的屏幕密度
-     */
     private static float density;
-    /**
-     * 字体大小
-     */
+
     private static final int TEXT_SIZE = 16;
 
     public String ShowText;
-    /**
-     * 字体距离扫描框下面的距离
-     */
+
     private static final int TEXT_PADDING_TOP = 30;
 
     private final Paint paint;
     private final Paint paintLine;
-    /**返回的照片*/
+
     private Bitmap resultBitmap;
-    /**遮盖物颜色*/
+
     private final int maskColor;
-    /**结果颜色*/
+
     private final int resultColor;
-    /**框架颜色*/
+
     public int frameColor;
-    /**
-     * 扫描线渐变色中间色
-     */
+
     public int frameBaseColor;
-    /**扫描线颜色*/
+
     private final int laserColor;
-    /**结果点的颜色*/
+
     private final int resultPointColor;
-    private int scannerAlpha;//扫描透明度
-    /**可能的结果点数*/
+    private int scannerAlpha;
+
     private Collection<ResultPoint> possibleResultPoints;
-    /**最后的结果点数*/
+
     private Collection<ResultPoint> lastPossibleResultPoints;
-    /**
-     * 是否画中间线
-     */
+
     public boolean drawLine = false;
 
-    /**
-     * 中间滑动线的最顶端位置
-     */
     private int slideTop;
 
-    /**
-     * 中间滑动线的最底端位置
-     */
     private int slideBottom;
     private boolean isFirst;
 
-    /**
-     *s扫码横线的移动时间
-     */
     public int scanTime;
 
 
@@ -145,7 +113,7 @@ public final class ViewfinderView extends View
     {
         super(context);
         density = context.getResources().getDisplayMetrics().density;
-        //将像素转化成dp
+        
         ScreenRate = (int) (25 * density);
 
         // Initialize these once for performance rather than calling them every time in onDraw().
@@ -209,7 +177,7 @@ public final class ViewfinderView extends View
         int height = canvas.getHeight();
 
         // Draw the exterior (i.e. outside the framing rect) darkened
-        //画区域
+        
         paint.setColor(resultBitmap != null ? resultColor : maskColor);
         canvas.drawRect(0, 0, width, frame.top, paint);
         canvas.drawRect(0, frame.top, frame.left, frame.bottom + 1, paint);
@@ -227,29 +195,27 @@ public final class ViewfinderView extends View
         {
 
             // Draw a two pixel solid black border inside the framing rect
-            //画框架
+            
             paint.setColor(frameColor);
             //      canvas.drawRect(frame.left, frame.top, frame.right + 1, frame.top + 2, paint);
             //      canvas.drawRect(frame.left, frame.top + 2, frame.left + 2, frame.bottom - 1, paint);
             //      canvas.drawRect(frame.right - 1, frame.top, frame.right + 1, frame.bottom - 1, paint);
             //      canvas.drawRect(frame.left, frame.bottom - 1, frame.right + 1, frame.bottom + 1, paint);
             //public void drawRect (float left, float top, float right, float bottom, Paint paint) 
-            //自己画（扫描框边上的角，共8个部分）
+            
 
             paint.setColor(Color.TRANSPARENT);
-            //画白线
+            
             
             canvas.drawRect(frame.right  , frame.top
                             + ScreenRate, frame.right+ CORNER_WIDTH,
-                    frame.bottom - ScreenRate, paint);//右白线
+                    frame.bottom - ScreenRate, paint);
             
             canvas.drawRect(frame.left+ ScreenRate  , frame.bottom ,
-                    frame.right- ScreenRate,frame.bottom + CORNER_WIDTH, paint);//下白线
+                    frame.right- ScreenRate,frame.bottom + CORNER_WIDTH, paint);
 
         paint.setColor(frameColor);
-        Log.e("EHHEHEHHEHHEHEHHEHHEHEHHEHHE", String.valueOf(CORNER_WIDTH));
-        Log.e("HOHOHOHHOOHOHOHOOOOOOOOOOOOOOOOO", String.valueOf(CORNER_LENGTH));
-        Log.e("RRRRRRRRRRRRRRRRRRRRRRRRRRRRR", String.valueOf(RXY));
+
         canvas.drawRoundRect(frame.left - CORNER_WIDTH, frame.top - CORNER_WIDTH, frame.left + CORNER_LENGTH, frame.top, RXY, RXY, paint);//左白线
         canvas.drawRoundRect(frame.left - CORNER_WIDTH, frame.top - CORNER_WIDTH, frame.left, frame.top + CORNER_LENGTH, RXY, RXY, paint);//上白线
 
@@ -268,7 +234,7 @@ public final class ViewfinderView extends View
 
         canvas.drawRoundRect(frame.right - CORNER_LENGTH , frame.bottom, frame.right + CORNER_WIDTH, frame.bottom + CORNER_WIDTH, RXY, RXY, paint);//右下竖线
         canvas.drawRoundRect(frame.right , frame.bottom - CORNER_LENGTH, frame.right + CORNER_WIDTH, frame.bottom + CORNER_WIDTH, RXY, RXY, paint);//右下横线
-            //直接用图片  
+             
             //      Rect bigRect = new Rect();
             //		bigRect.left = frame.left;
             //		bigRect.right = frame.right;
@@ -285,21 +251,19 @@ public final class ViewfinderView extends View
             //      int middle = frame.height() / 2 + frame.top;
             //      canvas.drawRect(frame.left + 2, middle - 1, frame.right - 1, middle + 2, paint);
 
-            //画中间移动的线 (int)(SPEEN_DISTANCE*density+0.5f)
+            
             if(drawLine) {
                 slideTop += SPEEN_DISTANCE;
                 if (slideTop >= slideBottom) {
                     slideTop = frame.top + CORNER_WIDTH;
                 }
-                //自己画
+                
                 paintLine.setColor(frameColor);
 
 //                0x8800FF00
                 Shader mShader = new LinearGradient(frame.left + CORNER_WIDTH, slideTop, frame.right
                         - CORNER_WIDTH, slideTop + MIDDLE_LINE_WIDTH,new int[] {Color.TRANSPARENT,frameBaseColor,frameColor,frameColor,frameColor,frameColor,frameColor,frameBaseColor,Color.TRANSPARENT},null, Shader.TileMode.CLAMP);
-//新建一个线性渐变，前两个参数是渐变开始的点坐标，第三四个参数是渐变结束的点的坐标。
-// 连接这2个点就拉出一条渐变线了，玩过PS的都懂。然后那个数组是渐变的颜色。下一个参数是渐变颜色的分布，如果为空，每个颜色就是均匀分布的。
-// 最后是模式，这里设置的是Clamp渐变
+
                 paintLine.setShader(mShader);
                 canvas.drawRect(frame.left + CORNER_WIDTH, slideTop, frame.right
                         - CORNER_WIDTH, slideTop + MIDDLE_LINE_WIDTH, paintLine);
@@ -307,7 +271,7 @@ public final class ViewfinderView extends View
 
 
             }
-            //用图片
+            
             //      Rect lineRect = new Rect();
             //		lineRect.left = frame.left;
             //		lineRect.right = frame.right;
@@ -315,7 +279,7 @@ public final class ViewfinderView extends View
             //		lineRect.bottom = slideTop + MIDDLE_LINE_PADDING;
             //		canvas.drawBitmap(((BitmapDrawable)(getResources().getDrawable(R.drawable.qrcode_scan_line))).getBitmap(), null, lineRect, paint);
 
-            //画扫描框下面的字
+           
             paint.setColor(Color.WHITE);
             paint.setTextSize(TEXT_SIZE * density);
             paint.setAlpha(0x40);
@@ -384,10 +348,6 @@ public final class ViewfinderView extends View
         possibleResultPoints.add(point);
     }
 
-
-    /**
-     * 中间色颜色换算
-     */
     public int reSetColor(int startInt) {
 
         int startA = (startInt >> 24) & 0xff;

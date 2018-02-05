@@ -86,15 +86,15 @@ public class VerticalSeekBar extends AbsSeekBar {
 
     @Override
     protected void onDraw(Canvas c) {
-        c.rotate(-90);// 反转90度，将水平SeekBar竖起来
-        c.translate(-getHeight(), 0);// 将经过旋转后得到的VerticalSeekBar移到正确的位置,注意经旋转后宽高值互换
+        c.rotate(-90);
+        c.translate(-getHeight(), 0);
         super.onDraw(c);
     }
 
     @Override
     protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(heightMeasureSpec, widthMeasureSpec);
-        setMeasuredDimension(getMeasuredHeight(), getMeasuredWidth());// 宽高值互换
+        setMeasuredDimension(getMeasuredHeight(), getMeasuredWidth());
     }
 
     @Override
@@ -105,10 +105,10 @@ public class VerticalSeekBar extends AbsSeekBar {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(h, w, oldw, oldh);// 宽高值互换
+        super.onSizeChanged(h, w, oldw, oldh);
     }
 
-    // 与源码完全相同，仅为调用宽高值互换处理的onStartTrackingTouch()方法
+    
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (!isEnabled()) {
@@ -152,7 +152,7 @@ public class VerticalSeekBar extends AbsSeekBar {
         return true;
     }
 
-    // 宽高值互换处理
+    
     private void trackTouchEvent(MotionEvent event) {
         final int height = getHeight();
         final int available = height - getPaddingBottom() - getPaddingTop();

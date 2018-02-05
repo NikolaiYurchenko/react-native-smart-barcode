@@ -273,7 +273,6 @@ private final Context context;
   /**
    * Like {@link #getFramingRect} but coordinates are in terms of the preview frame,
    * not UI / screen.
-   * 如果需要重设扫码区域必须重置framingRectInPreview = null
    */
   public Rect getFramingRectInPreview() {
     if (framingRectInPreview == null) {
@@ -281,12 +280,12 @@ private final Context context;
       Rect rect = new Rect(getFramingRect());
       Point cameraResolution = configManager.getCameraResolution();
       Point screenResolution = configManager.getScreenResolution();
-      //横屏
+      
 //       rect.left = rect.left * cameraResolution.x / screenResolution.x;
 //       rect.right = rect.right * cameraResolution.x / screenResolution.x;
 //       rect.top = rect.top * cameraResolution.y / screenResolution.y;
 //       rect.bottom = rect.bottom * cameraResolution.y / screenResolution.y;
-      //竖屏
+      
      rect.left = rect.left * cameraResolution.y / screenResolution.x;
       rect.right = rect.right * cameraResolution.y / screenResolution.x;
       rect.top = rect.top * cameraResolution.x / screenResolution.y;

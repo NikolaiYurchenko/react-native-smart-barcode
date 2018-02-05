@@ -16,7 +16,7 @@ import com.reactnativecomponent.barcode.view.LinearGradientView;
 
 public class RCTLinearGradientViewManager extends SimpleViewManager<LinearGradientView>{
 
-    private static final String REACT_CLASS = "LinearGradientView";//要与类名一致
+    private static final String REACT_CLASS = "LinearGradientView";
     LinearGradientView linearGradientView;
     private float density;
     Activity activity;
@@ -75,7 +75,7 @@ if((int) (width * density + 0.5f)>1) {
     @ReactProp(name = "frameColor")
     public void setFrameColor(LinearGradientView view, String color) {
         if (color != null && !color.isEmpty()) {
-            view.setFrameColor(Color.parseColor(color));//转换成16进制
+            view.setFrameColor(Color.parseColor(color));
         }
     }
 

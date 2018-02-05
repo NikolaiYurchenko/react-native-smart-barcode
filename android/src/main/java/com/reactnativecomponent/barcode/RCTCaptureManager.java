@@ -24,8 +24,8 @@ import java.util.Vector;
 
 
 public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
-    private static final String REACT_CLASS = "CaptureView";//要与类名一致
-    public static final int CHANGE_SHOW = 0;//用来标记方法的下标
+    private static final String REACT_CLASS = "CaptureView";
+    public static final int CHANGE_SHOW = 0;
    Activity activity;
     CaptureView cap;
     private float density;
@@ -121,13 +121,13 @@ public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
         view.setMIDDLE_LINE_WIDTH(MIDDLE_LINE_WIDTH);
     }*/
 
-    //扫描线移动一圈时间
+    
     @ReactProp(name = "scannerLineInterval", defaultInt = 1000)
     public void setTime(CaptureView view, int time) {
         view.setScanTime(time);
     }
 
-   /* //扫描框尺寸动画持续时间
+   /* 
     @ReactProp(name = "changeTime", defaultInt = 1000)
     public void setChangeTime(CaptureView view, int time) {
         view.setChangeTime(time);
@@ -151,7 +151,7 @@ public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
         }
     }
 
-  /*  //扫码成功提示音
+  /*  
     @ReactProp(name = "playBeep",defaultBoolean = true)
     public void setPlayBeep(CaptureView view, boolean isBeep) {
             view.setPlayBeep(isBeep);
@@ -208,7 +208,7 @@ public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
     @Override
     public Map<String, Object> getExportedCustomDirectEventTypeConstants() {
         return MapBuilder.<String, Object>builder()
-                .put("QRCodeResult", MapBuilder.of("registrationName", "onBarCodeRead"))//registrationName 后的名字,RN中方法也要是这个名字否则不执行
+                .put("QRCodeResult", MapBuilder.of("registrationName", "onBarCodeRead"))//registrationName 
                 .build();
     }
 

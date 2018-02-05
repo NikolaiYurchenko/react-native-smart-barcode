@@ -20,16 +20,16 @@ public class DecodeUtil {
 
     public static Bitmap convertToBitmap(String path) {
         BitmapFactory.Options opts = new BitmapFactory.Options();
-        // 设置为ture只获取图片大小
+
         opts.inJustDecodeBounds = true;
         opts.inPreferredConfig = Bitmap.Config.RGB_565;
-        // 返回为空
+        
         BitmapFactory.decodeFile(path, opts);
         int width = opts.outWidth;
         int height = opts.outHeight;
       /*  float scaleWidth = 0.f, scaleHeight = 0.f;
         if (width > w || height > h){
-            // 缩放
+            
             scaleWidth = ((float) width) / w;
             scaleHeight = ((float) height) / h;
         }*/
@@ -46,7 +46,7 @@ public class DecodeUtil {
 
         Bitmap bmp = convertToBitmap(path);
         byte[] data = getYUV420sp(bmp.getWidth(), bmp.getHeight(), bmp);
-        // 处理
+        
         try {
             Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>();
 //            hints.put(DecodeHintType.CHARACTER_SET, "utf-8");
@@ -99,7 +99,7 @@ public class DecodeUtil {
     }
 
     /**
-     * RGB转YUV420sp
+     * RGB
      *
      * @param yuv420sp
      *            inputWidth * inputHeight * 3 / 2
@@ -110,23 +110,23 @@ public class DecodeUtil {
      */
     private static void encodeYUV420SP(byte[] yuv420sp, int[] argb, int width,
                                        int height) {
-        // 帧图片的像素大小
+        
         final int frameSize = width * height;
-        // ---YUV数据---
+        
         int Y, U, V;
-        // Y的index从0开始
+        
         int yIndex = 0;
-        // UV的index从frameSize开始
+        
         int uvIndex = frameSize;
 
-        // ---颜色数据---
+        
 //      int a, R, G, B;
         int R, G, B;
         //
         int argbIndex = 0;
         //
 
-        // ---循环所有像素点，RGB转YUV---
+        
         for (int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
 
