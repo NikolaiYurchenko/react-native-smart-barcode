@@ -7,17 +7,18 @@
 
 
 import React, {
-    // PropTypes,
-    Component,
-} from 'react'
+    Component
+} from 'react';
 import {
     View,
     requireNativeComponent,
     NativeModules,
     AppState,
-    Platform,
-} from 'react-native'
-import PropTypes from "prop-types"
+    Text,
+    Platform
+} from 'react-native';
+import PropTypes from 'prop-types';
+import { getWidth, getHeight, getDeviceWidth, getDeviceHeight } from '../../src/utils/adaptive';
 
 const BarcodeManager = Platform.OS == 'ios' ? NativeModules.Barcode : NativeModules.CaptureModule
 
@@ -26,12 +27,15 @@ export default class Barcode extends Component {
 
     static defaultProps = {
         barCodeTypes: Object.values(BarcodeManager.barCodeTypes),
-        scannerRectWidth: 255,
-        scannerRectHeight: 255,
+        scannerRectWidth: getWidth(240),
+        scannerRectHeight: getHeight(240),
         scannerRectTop: 0,
         scannerRectLeft: 0,
-        scannerLineInterval: 3000,
-        scannerRectCornerColor: `#09BB0D`,
+        scannerRectCornerWidth: 55,
+        scannerRectCornerLength: 135,
+        scannerRectCornerRadius: 60,
+        scannerLineInterval: 5000,
+        scannerRectCornerColor: `white`,
     }
 
     static propTypes = {
@@ -42,9 +46,11 @@ export default class Barcode extends Component {
         scannerRectHeight: PropTypes.number,
         scannerRectTop: PropTypes.number,
         scannerRectLeft: PropTypes.number,
+        scannerRectCornerWidth: PropTypes.number,
+        scannerRectCornerLength: PropTypes.number,
+        scannerRectCornerRadius: PropTypes.number,
         scannerLineInterval: PropTypes.number,
-        scannerRectCornerColor: PropTypes.string,
-        scannerRectCornerWidth: PropTypes.number
+        scannerRectCornerColor: PropTypes.string
     }
 
     render() {
@@ -62,16 +68,22 @@ export default class Barcode extends Component {
         AppState.removeEventListener('change', this._handleAppStateChange);
     }
 
+    startFlash() {
+        console.log('barcode.staetFlash()');
+        BarcodeManager.startFlash()
+    }
+
+    stopFlash() {
+        console.log('barcode.stopFlash()');
+        BarcodeManager.stopFlash()
+    }
+
     startScan() {
         BarcodeManager.startSession()
     }
 
     stopScan() {
         BarcodeManager.stopSession()
-    }
-
-    changeColor(color){
-        BarcodeManager.changeColor(color);
     }
 
     _handleAppStateChange = (currentAppState) => {

@@ -60,7 +60,11 @@ public final class ViewfinderView extends View
     /**
      * 四个蓝色边角对应的宽度
      */
-    public int CORNER_WIDTH = 3;
+        public int CORNER_WIDTH = 3;
+
+        public int CORNER_LENGTH = 5;
+                /**Corner radius */
+        public int RXY = 2;
     /**
      * 扫描框中的中间线的宽度
      */
@@ -151,7 +155,7 @@ public final class ViewfinderView extends View
         maskColor = resources.getColor(R.color.viewfinder_mask);
         resultColor = resources.getColor(R.color.backgroud);
         frameColor = color;//resources.getColor(R.color.viewfinder_frame);
-        frameBaseColor=reSetColor(frameColor);
+        frameBaseColor = reSetColor(frameColor);
 //        Log.i("Test","reSetColor"+frameBaseColor);
         laserColor = resources.getColor(R.color.viewfinder_laser);
         resultPointColor = resources.getColor(R.color.possible_result_points);
@@ -162,7 +166,18 @@ public final class ViewfinderView extends View
     }
 
     public void setCORNER_WIDTH(int CORNER_WIDTH) {
+            Log.e("VVsetCORNER_WIDTH", String.valueOf(CORNER_WIDTH));
         this.CORNER_WIDTH = CORNER_WIDTH;
+    }
+
+    public void setCORNER_LENGTH(int CORNER_LENGTH) {
+            Log.e("VVsetCORNER_LENGTH", String.valueOf(CORNER_LENGTH));
+        this.CORNER_LENGTH = CORNER_LENGTH;
+    }
+
+    public void setRXY(int RXY) {
+            Log.e("VVsetRXY", String.valueOf(RXY));
+        this.RXY = RXY;
     }
 
     public void setMIDDLE_LINE_WIDTH(int MIDDLE_LINE_WIDTH) {
@@ -220,47 +235,39 @@ public final class ViewfinderView extends View
             //      canvas.drawRect(frame.left, frame.bottom - 1, frame.right + 1, frame.bottom + 1, paint);
             //public void drawRect (float left, float top, float right, float bottom, Paint paint) 
             //自己画（扫描框边上的角，共8个部分）
-            canvas.drawRect(frame.left - CORNER_WIDTH/2 , frame.top
-                    - CORNER_WIDTH /2, frame.left + ScreenRate, frame.top
-                    + CORNER_WIDTH /2, paint);//左上角横线
-            canvas.drawRect(frame.left - CORNER_WIDTH/2 , frame.top
-                    - CORNER_WIDTH/2, frame.left + CORNER_WIDTH/2,
-                    frame.top + ScreenRate, paint);//左上角竖线
 
-            paint.setColor(Color.WHITE);
+            paint.setColor(Color.TRANSPARENT);
             //画白线
-            canvas.drawRect(frame.left - CORNER_WIDTH/2 , frame.top
-                            + ScreenRate, frame.left,
-                    frame.bottom - ScreenRate, paint);//左白线
+            
             canvas.drawRect(frame.right  , frame.top
-                            + ScreenRate, frame.right+ CORNER_WIDTH/2,
+                            + ScreenRate, frame.right+ CORNER_WIDTH,
                     frame.bottom - ScreenRate, paint);//右白线
-            canvas.drawRect(frame.left+ScreenRate  , frame.top - CORNER_WIDTH/2,
-                    frame.right- ScreenRate,frame.top, paint);//上白线
-            canvas.drawRect(frame.left+ScreenRate  , frame.bottom ,
-                    frame.right- ScreenRate,frame.bottom + CORNER_WIDTH/2, paint);//下白线
+            
+            canvas.drawRect(frame.left+ ScreenRate  , frame.bottom ,
+                    frame.right- ScreenRate,frame.bottom + CORNER_WIDTH, paint);//下白线
+
+        paint.setColor(frameColor);
+        Log.e("EHHEHEHHEHHEHEHHEHHEHEHHEHHE", String.valueOf(CORNER_WIDTH));
+        Log.e("HOHOHOHHOOHOHOHOOOOOOOOOOOOOOOOO", String.valueOf(CORNER_LENGTH));
+        Log.e("RRRRRRRRRRRRRRRRRRRRRRRRRRRRR", String.valueOf(RXY));
+        canvas.drawRoundRect(frame.left - CORNER_WIDTH, frame.top - CORNER_WIDTH, frame.left + CORNER_LENGTH, frame.top, RXY, RXY, paint);//左白线
+        canvas.drawRoundRect(frame.left - CORNER_WIDTH, frame.top - CORNER_WIDTH, frame.left, frame.top + CORNER_LENGTH, RXY, RXY, paint);//上白线
 
 
-            paint.setColor(frameColor);
+        canvas.drawRoundRect(frame.left - CORNER_WIDTH, frame.bottom - CORNER_LENGTH, frame.left, frame.bottom + CORNER_WIDTH, RXY, RXY, paint);//左下角竖线
+        //     canvas.drawRect(frame.left - CORNER_WIDTH/2 , frame.bottom
+        //     - ScreenRate, frame.left + CORNER_WIDTH/2 , frame.bottom
+        //     + CORNER_WIDTH/2 , paint);//左下角竖线
+        canvas.drawRoundRect(frame.left - CORNER_WIDTH, frame.bottom, frame.left + CORNER_LENGTH, frame.bottom + CORNER_WIDTH, RXY, RXY, paint);//左下角横线
+        //     canvas.drawRect(frame.left - CORNER_WIDTH/2 , frame.bottom
+        //     - CORNER_WIDTH/2 , frame.left + ScreenRate, frame.bottom
+        //     + CORNER_WIDTH/2 , paint);//左下角横线
 
-            canvas.drawRect(frame.left - CORNER_WIDTH/2 , frame.bottom
-                    - ScreenRate, frame.left + CORNER_WIDTH/2 , frame.bottom
-                    + CORNER_WIDTH/2 , paint);//左下角竖线
-            canvas.drawRect(frame.left - CORNER_WIDTH/2 , frame.bottom
-                    - CORNER_WIDTH/2 , frame.left + ScreenRate, frame.bottom
-                    + CORNER_WIDTH/2 , paint);//左下角横线
-            canvas.drawRect(frame.right - ScreenRate, frame.top - CORNER_WIDTH/2
-                    , frame.right + CORNER_WIDTH/2 , frame.top
-                    + CORNER_WIDTH/2 , paint);//右上横线
-            canvas.drawRect(frame.right - CORNER_WIDTH / 2, frame.top
-                    - CORNER_WIDTH / 2, frame.right + CORNER_WIDTH / 2,
-                    frame.top + ScreenRate, paint);//右上竖线
-            canvas.drawRect(frame.right - CORNER_WIDTH/2 , frame.bottom
-                    - ScreenRate, frame.right + CORNER_WIDTH /2, frame.bottom
-                    + CORNER_WIDTH /2, paint);//右下竖线
-            canvas.drawRect(frame.right - ScreenRate, frame.bottom
-                    - CORNER_WIDTH / 2, frame.right + CORNER_WIDTH / 2,
-                    frame.bottom + CORNER_WIDTH / 2, paint);//右下横线
+        canvas.drawRoundRect(frame.right - CORNER_LENGTH, frame.top - CORNER_WIDTH, frame.right + CORNER_WIDTH, frame.top, RXY, RXY, paint);//右上横线
+        canvas.drawRoundRect(frame.right, frame.top - CORNER_WIDTH, frame.right + CORNER_WIDTH, frame.top + CORNER_LENGTH, RXY, RXY, paint);//右上竖线
+
+        canvas.drawRoundRect(frame.right - CORNER_LENGTH , frame.bottom, frame.right + CORNER_WIDTH, frame.bottom + CORNER_WIDTH, RXY, RXY, paint);//右下竖线
+        canvas.drawRoundRect(frame.right , frame.bottom - CORNER_LENGTH, frame.right + CORNER_WIDTH, frame.bottom + CORNER_WIDTH, RXY, RXY, paint);//右下横线
             //直接用图片  
             //      Rect bigRect = new Rect();
             //		bigRect.left = frame.left;
@@ -395,8 +402,6 @@ public final class ViewfinderView extends View
                 | (startR << 16)
                 | (startG  << 8)
                 | (startB );
-
-
     }
 
 }

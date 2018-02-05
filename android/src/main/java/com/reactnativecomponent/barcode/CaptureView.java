@@ -22,7 +22,6 @@ import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.PopupWindow;
 
@@ -73,8 +72,10 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
      */
     private int cX;//X轴偏移
     private int cY;//Y轴偏移
-    private int CORNER_WIDTH = 4;//四个对应角宽度
-    private int MIDDLE_LINE_WIDTH = 3;//扫描线宽度
+    private int CORNER_WIDTH;//四个对应角宽度
+    private int CORNER_LENGTH;
+    private int RXY;
+    private int MIDDLE_LINE_WIDTH = 0;//扫描线宽度
     private int CORNER_COLOR = Color.GREEN;
     private int Min_Frame_Width;//扫描框最小单位
     //框的颜色
@@ -225,11 +226,12 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
             initCamera(surfaceTexture);
         } else {
             textureView.setSurfaceTextureListener(this);
-
         }
         this.addView(textureView);
         viewfinderView = new ViewfinderView(activity, scanTime, CORNER_COLOR);
         viewfinderView.CORNER_WIDTH = CORNER_WIDTH;
+        viewfinderView.CORNER_LENGTH = CORNER_LENGTH;
+        viewfinderView.RXY = RXY;
         viewfinderView.ShowText = Text;
         viewfinderView.setLayoutParams(param);
         viewfinderView.getLayoutParams().height = ScreenHeight;
@@ -242,13 +244,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
         linearGradientView.setLayoutParams(param);
         linearGradientView.setFrameColor(CORNER_COLOR);
 
-//
-//        Button b = new Button(activity);
-//        ViewGroup.LayoutParams backButtonParams = new LayoutParams(150, 150);
-//        b.setLayoutParams(backButtonParams);
-//        b.setText("asfadsfasdf");
-//        b.setTextColor(Color.WHITE);
-//        this.addView(b);
 
 //        decodeFormats = null;
         characterSet = null;
@@ -675,9 +670,28 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
      */
     public void setCORNER_WIDTH(int CORNER_WIDTH) {
         this.CORNER_WIDTH = CORNER_WIDTH;
+        Log.e("CVsetW", String.valueOf(CORNER_WIDTH));
 
         if (viewfinderView != null) {
             viewfinderView.setCORNER_WIDTH(this.CORNER_WIDTH);
+        }
+    }
+
+    public void setCORNER_LENGTH(int CORNER_LENGTH) {
+        this.CORNER_LENGTH = CORNER_LENGTH;
+        Log.e("CVsetL", String.valueOf(CORNER_LENGTH));
+
+        if (viewfinderView != null) {
+            viewfinderView.setCORNER_LENGTH(this.CORNER_LENGTH);
+        }
+    }
+
+    public void setRXY(int RXY) {
+        this.RXY = RXY;
+        Log.e("CVsetRXY", String.valueOf(RXY));
+
+        if (viewfinderView != null) {
+            viewfinderView.setRXY(this.RXY);
         }
     }
 

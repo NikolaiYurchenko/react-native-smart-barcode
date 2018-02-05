@@ -6,7 +6,7 @@
   
   <color name="transparent">#00000000</color>
   <color name="viewfinder_laser">#ffcc0000</color> <!-- Android standard ICS color -->
-  <color name="viewfinder_mask">#cb000000</color>
+  <color name="viewfinder_mask">#00000000</color>
   <color name="viewfinder_frame">#ff4EEE94</color><!-- #ff0000ff -->
   <color name="backgroud">#ffffffff</color>
   <color name="title_tv_color">#ffffffff</color>

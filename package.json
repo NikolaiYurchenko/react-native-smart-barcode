@@ -1,38 +1,36 @@
 {
-  "_args": [
-    [
-      "react-native-smart-barcode@1.0.6",
-      "/Users/Barterio/workspace/storj/storj-mobile"
-    ]
-  ],
-  "_from": "react-native-smart-barcode@1.0.6",
+  "_from": "react-native-smart-barcode",
   "_id": "react-native-smart-barcode@1.0.6",
   "_inBundle": false,
   "_integrity": "sha1-dBFYbGh+0ltq30VvlJs5aZxj214=",
   "_location": "/react-native-smart-barcode",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "tag",
     "registry": true,
-    "raw": "react-native-smart-barcode@1.0.6",
+    "raw": "react-native-smart-barcode",
     "name": "react-native-smart-barcode",
     "escapedName": "react-native-smart-barcode",
-    "rawSpec": "1.0.6",
+    "rawSpec": "",
     "saveSpec": null,
-    "fetchSpec": "1.0.6"
+    "fetchSpec": "latest"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/react-native-smart-barcode/-/react-native-smart-barcode-1.0.6.tgz",
-  "_spec": "1.0.6",
-  "_where": "/Users/Barterio/workspace/storj/storj-mobile",
+  "_shasum": "7411586c687ed25b6adf456f949b39699c63db5e",
+  "_spec": "react-native-smart-barcode",
+  "_where": "D:\\Projects\\storj-mobile",
   "author": {
     "name": "HISAME SHIZUMARU"
   },
   "bugs": {
     "url": "https://github.com/react-native-component/react-native-smart-barcode/issues"
   },
+  "bundleDependencies": false,
+  "deprecated": false,
   "description": "A smart barcode scanner component for React Native app",
   "homepage": "https://github.com/react-native-component/react-native-smart-barcode#readme",
   "keywords": [

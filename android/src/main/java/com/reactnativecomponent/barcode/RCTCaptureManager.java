@@ -91,12 +91,26 @@ public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
     }*/
 
 
-  @ReactProp(name = "scannerRectCornerWidth", defaultInt = 4)
+   @ReactProp(name = "scannerRectCornerWidth", defaultInt = 4)
     public void setCORNER_WIDTH(CaptureView view, int CORNER_WIDTH) {
+        Log.e("MANAGERcw", String.valueOf(CORNER_WIDTH));
         if(CORNER_WIDTH<4){
             CORNER_WIDTH=4;
         }
         view.setCORNER_WIDTH(CORNER_WIDTH);
+    }
+
+    @ReactProp(name = "scannerRectCornerLength", defaultInt = 50)
+    public void setCORNER_LENGTH(CaptureView view, int CORNER_LENGTH) {
+        Log.e("MANAGERcl", String.valueOf(CORNER_LENGTH));
+
+        view.setCORNER_LENGTH(CORNER_LENGTH);
+    }
+
+    @ReactProp(name = "scannerRectCornerRadius", defaultInt = 10)
+    public void setRXY(CaptureView view, int RXY) {
+        Log.e("MANAGERrxy", String.valueOf(RXY));
+        view.setRXY(RXY);
     }
 
    /* @ReactProp(name = "scannerLineWidth", defaultInt = 3)
@@ -212,7 +226,7 @@ public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
 
         @ReactProp(name = "captureTarget")
         public void setCaptureTarget(RCTCameraView view, int captureTarget) {
-            // No reason to handle this props value here since it's passed again to the RCTCameraModule capture method
+            // No reason to handle this props value here since it"s passed again to the RCTCameraModule capture method
         }
 
         @ReactProp(name = "type")
