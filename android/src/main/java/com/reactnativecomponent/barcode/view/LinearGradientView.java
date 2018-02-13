@@ -14,43 +14,21 @@ import android.view.ViewGroup;
 
 public class LinearGradientView extends View {
 
-//    private int slideTop;
-//
+    public int frameColor = Color.GREEN;
 
-//    private static int SPEEN_DISTANCE = 3;
-//
-//    private int slideBottom;
-//
-//    public int CORNER_WIDTH = 3;*/
 
-    
-    public int frameColor=Color.GREEN;
-
-    
     public int frameBaseColor;
 
-    
+
     public int size;
-    
+
     public int width;
 
     Activity activity;
 
-
-//    private static final int MIDDLE_LINE_WIDTH = 3;
-
-
-//    public int top,left,right;
-
-
-//    private Paint paintLine;
-
-
-    public LinearGradientView(Context context,Activity activity) {
+    public LinearGradientView(Context context, Activity activity) {
         super(context);
-        this.activity=activity;
-
-//        paintLine=new Paint();
+        this.activity = activity;
     }
 
     public void setFrameColor(int frameColor) {
@@ -58,24 +36,23 @@ public class LinearGradientView extends View {
         this.frameColor = frameColor;
 
         this.frameBaseColor = reSetColor(frameColor);
-        
+
         int[] mColors = new int[]{Color.TRANSPARENT, frameBaseColor, frameColor, frameColor, frameColor, frameColor, frameColor, frameBaseColor, Color.TRANSPARENT};
 
         GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, mColors);
         drawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
-//        drawable.setCornerRadius(15);
-//        drawable.setStroke(10,-1);
+
         setBackground(drawable);
     }
 
     @Override
     protected void onAttachedToWindow() {
-        ViewGroup.LayoutParams params= getLayoutParams();
-        if(size>1) {
+        ViewGroup.LayoutParams params = getLayoutParams();
+        if (size > 1) {
             params.height = size;
         }
-        if(width>1){
-            params.width=width;
+        if (width > 1) {
+            params.width = width;
         }
         setLayoutParams(params);
 
@@ -88,15 +65,12 @@ public class LinearGradientView extends View {
     public void onWindowFocusChanged(boolean hasWindowFocus) {
 
         super.onWindowFocusChanged(hasWindowFocus);
-
-
-
     }
 
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-       final ViewGroup.LayoutParams params= getLayoutParams();
+        final ViewGroup.LayoutParams params = getLayoutParams();
         int height = getHeight();
         if (height < 3) {
             params.height = 3;
@@ -110,36 +84,9 @@ public class LinearGradientView extends View {
             }
         });
 
-
         super.onLayout(changed, left, top, right, bottom);
-
     }
 
-
-
-
-/*    @Override
-    protected void onDraw(Canvas canvas) {
-        paintLine.setColor(frameColor);
-
-
-        slideTop += SPEEN_DISTANCE;
-        if (slideTop >= slideBottom) {
-            slideTop = top + CORNER_WIDTH;
-        }
-        
-        paintLine.setColor(frameColor);
-
-//                0x8800FF00
-        Shader mShader = new LinearGradient(left + CORNER_WIDTH, slideTop, right
-                - CORNER_WIDTH, slideTop + MIDDLE_LINE_WIDTH,new int[] {Color.TRANSPARENT,frameBaseColor,frameColor,frameColor,frameColor,frameColor,frameColor,frameBaseColor,Color.TRANSPARENT},null, Shader.TileMode.CLAMP);
-        paintLine.setShader(mShader);
-        canvas.drawRect(left + CORNER_WIDTH, slideTop, right
-                - CORNER_WIDTH, slideTop + MIDDLE_LINE_WIDTH, paintLine);
-
-    }*/
-
-    
     public int reSetColor(int startInt) {
 
         int startA = (startInt >> 24) & 0xff;

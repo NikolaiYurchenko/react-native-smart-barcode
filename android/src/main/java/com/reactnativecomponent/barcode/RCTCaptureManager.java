@@ -26,15 +26,9 @@ import java.util.Vector;
 public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
     private static final String REACT_CLASS = "CaptureView";
     public static final int CHANGE_SHOW = 0;
-   Activity activity;
+    Activity activity;
     CaptureView cap;
     private float density;
-
-
-//    public RCTCaptureManager(Activity activity) {
-//        this.activity = activity;
-//        density = activity.getResources().getDisplayMetrics().density;
-//    }
 
     @Override
     public String getName() {
@@ -46,12 +40,10 @@ public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
         Activity activity = context.getCurrentActivity();
         density = activity.getResources().getDisplayMetrics().density;
         cap = new CaptureView(activity, context);
-//        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//
-//        cap.setLayoutParams(params);
 
         return cap;
     }
+
     @ReactProp(name = "barCodeTypes")
     public void setbarCodeTypes(CaptureView view, ReadableArray barCodeTypes) {
 
@@ -65,14 +57,15 @@ public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
         view.setDecodeFormats(result);
 
     }
+
     @ReactProp(name = "scannerRectLeft", defaultInt = 0)
     public void setCX(CaptureView view, int cX) {
-        view.setcX((int) (cX* density + 0.5f));
+        view.setcX((int) (cX * density + 0.5f));
     }
 
     @ReactProp(name = "scannerRectTop", defaultInt = 0)
     public void setCY(CaptureView view, int cY) {
-        view.setcY((int)(cY* density + 0.5f));
+        view.setcY((int) (cY * density + 0.5f));
     }
 
     @ReactProp(name = "scannerRectWidth", defaultInt = 255)
@@ -85,17 +78,11 @@ public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
         view.setMAX_FRAME_HEIGHT((int) (FRAME_HEIGHT * density + 0.5f));
     }
 
-/*    @ReactProp(name = "text")
-    public void setText(CaptureView view, String text) {
-        view.setText(text);
-    }*/
-
-
-   @ReactProp(name = "scannerRectCornerWidth", defaultInt = 4)
+    @ReactProp(name = "scannerRectCornerWidth", defaultInt = 4)
     public void setCORNER_WIDTH(CaptureView view, int CORNER_WIDTH) {
         Log.e("MANAGERcw", String.valueOf(CORNER_WIDTH));
-        if(CORNER_WIDTH<4){
-            CORNER_WIDTH=4;
+        if (CORNER_WIDTH < 4) {
+            CORNER_WIDTH = 4;
         }
         view.setCORNER_WIDTH(CORNER_WIDTH);
     }
@@ -113,36 +100,10 @@ public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
         view.setRXY(RXY);
     }
 
-   /* @ReactProp(name = "scannerLineWidth", defaultInt = 3)
-    public void setMIDDLE_LINE_WIDTH(CaptureView view, int MIDDLE_LINE_WIDTH) {
-        if(MIDDLE_LINE_WIDTH<3){
-            MIDDLE_LINE_WIDTH=3;
-        }
-        view.setMIDDLE_LINE_WIDTH(MIDDLE_LINE_WIDTH);
-    }*/
-
-    
     @ReactProp(name = "scannerLineInterval", defaultInt = 1000)
     public void setTime(CaptureView view, int time) {
         view.setScanTime(time);
     }
-
-   /* 
-    @ReactProp(name = "changeTime", defaultInt = 1000)
-    public void setChangeTime(CaptureView view, int time) {
-        view.setChangeTime(time);
-    }
-
-    //camera聚集时间
-    @ReactProp(name = "focusTime", defaultInt = 1000)
-    public void setfocusTime(CaptureView view, int time) {
-        view.setFocusTime(time);
-    }
-
-    @ReactProp(name = "autoStart", defaultBoolean = true)
-    public void setAutoStart(CaptureView view, boolean start) {
-        view.setAutoStart(start);
-    }*/
 
     @ReactProp(name = "scannerRectCornerColor")
     public void setCORNER_COLOR(CaptureView view, String color) {
@@ -151,12 +112,6 @@ public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
         }
     }
 
-  /*  
-    @ReactProp(name = "playBeep",defaultBoolean = true)
-    public void setPlayBeep(CaptureView view, boolean isBeep) {
-            view.setPlayBeep(isBeep);
-    }
-*/
 
     @Override
     public
@@ -164,12 +119,11 @@ public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
     Map<String, Integer> getCommandsMap() {
         return MapBuilder.of(
                 "change",
-                CHANGE_SHOW);//js处发送的方法名字
+                CHANGE_SHOW);
     }
 
     @Override
     public void receiveCommand(CaptureView root, int commandId, @Nullable ReadableArray config) {
-       // super.receiveCommand(root, commandId, config);
         if (commandId == CHANGE_SHOW) {
             this.changeWidthHeight(config.getMap(0));
         }
@@ -178,13 +132,12 @@ public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
 
     @ReactMethod
     public void changeWidthHeight(final ReadableMap config) {
-//        Log.i("Test", "changeWidthHeight");
         if (cap != null) {
             activity.runOnUiThread(new Runnable() {
                 public void run() {
                     int width = config.getInt("FRAME_WIDTH");
                     int height = config.getInt("FRAME_HEIGHT");
-                    cap.setCHANGE_WIDTH((int)(width* density + 0.5f), (int)(height* density + 0.5f));
+                    cap.setCHANGE_WIDTH((int) (width * density + 0.5f), (int) (height * density + 0.5f));
                 }
             });
         }
@@ -197,9 +150,9 @@ public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
         view.setOnEvChangeListener(
                 new CaptureView.OnEvChangeListener() {
                     @Override
-                    public void getQRCodeResult(String result,BarcodeFormat format) {
+                    public void getQRCodeResult(String result, BarcodeFormat format) {
                         reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher()
-                                .dispatchEvent(new QRCodeResultEvent(view.getId(), SystemClock.nanoTime(), result,format));
+                                .dispatchEvent(new QRCodeResultEvent(view.getId(), SystemClock.nanoTime(), result, format));
                     }
 
                 });
@@ -211,29 +164,4 @@ public class RCTCaptureManager extends ViewGroupManager<CaptureView> {
                 .put("QRCodeResult", MapBuilder.of("registrationName", "onBarCodeRead"))//registrationName 
                 .build();
     }
-
-/*
-
-        @ReactProp(name = "aspect")
-        public void setAspect(CaptureView view, int aspect) {
-            view.setAspect(aspect);
-        }
-
-        @ReactProp(name = "captureMode")
-        public void setCaptureMode(RCTCameraView view, int captureMode) {
-            // TODO - implement video mode
-        }
-
-        @ReactProp(name = "captureTarget")
-        public void setCaptureTarget(RCTCameraView view, int captureTarget) {
-            // No reason to handle this props value here since it"s passed again to the RCTCameraModule capture method
-        }
-
-        @ReactProp(name = "type")
-        public void setType(RCTCameraView view, int type) {
-            view.setCameraType(type);
-        }
-*/
-
-
 }

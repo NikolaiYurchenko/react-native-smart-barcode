@@ -10,17 +10,18 @@ import com.google.zxing.BarcodeFormat;
 
 
 public class QRCodeResultEvent extends Event<QRCodeResultEvent> {
-        String result;
+    String result;
     BarcodeFormat format;
-    public QRCodeResultEvent(int viewTag, long timestampMs,String result,BarcodeFormat format) {
-//        super(viewTag, timestampMs);
+
+    public QRCodeResultEvent(int viewTag, long timestampMs, String result, BarcodeFormat format) {
+
         super(viewTag);
-        this.result=result;
-        this.format=format;
+        this.result = result;
+        this.format = format;
     }
 
     @Override
-    public String getEventName(){
+    public String getEventName() {
         return "QRCodeResult";
     }
 
@@ -33,10 +34,9 @@ public class QRCodeResultEvent extends Event<QRCodeResultEvent> {
         WritableMap eventData = Arguments.createMap();
         WritableMap data = Arguments.createMap();
         data.putString("code", getResult());
-        data.putString("type",format.toString());
-//        Log.i("Test","code="+getResult());
-        eventData.putMap("data",data);
+        data.putString("type", format.toString());
 
+        eventData.putMap("data", data);
 
         return eventData;
     }

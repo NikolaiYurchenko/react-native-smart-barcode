@@ -48,7 +48,7 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     private String characterSet;
     //private InactivityTimer inactivityTimer;
     private MediaPlayer mediaPlayer;
-    private boolean playBeep=true;
+    private boolean playBeep = true;
     private static final float BEEP_VOLUME = 0.10f;
     private boolean vibrate;
     private Activity activity;
@@ -59,11 +59,11 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     private int height;
     private int width;
     public boolean decodeFlag = true;
-   
+
     private Handler mHandler;
-    
+
     private int mZoom = 0;
-    
+
     private int cX;
     private int cY;
     private int CORNER_WIDTH;
@@ -72,14 +72,14 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     private int MIDDLE_LINE_WIDTH = 0;
     private int CORNER_COLOR = Color.GREEN;
     private int Min_Frame_Width;
-    
+
     private String Text = "";
-    
+
     private int MAX_FRAME_WIDTH;
-    
+
     private int MAX_FRAME_HEIGHT;
     private float density;
-   
+
     public int scanTime = 1000;
     private long changeTime = 1000;
     private int focusTime = 1000;
@@ -91,47 +91,7 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     private LinearGradientView linearGradientView;
     SurfaceTexture surfaceTexture;
     boolean autoStart = true;
-    String ResultStr="";
-
-
-
-
-   /* private final VerticalSeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new VerticalSeekBar.OnSeekBarChangeListener() {
-
-        @Override
-        public void onProgressChanged(VerticalSeekBar seekBar, int progress,
-                                      boolean fromUser) {
-            // TODO Auto-generated method stub
-
-            //setZoom(progress);
-
-            mHandler.removeCallbacksAndMessages(progressBar);
-            
-            mHandler.postAtTime(new Runnable() {
-
-                @Override
-                public void run() {
-                    // TODO Auto-generated method stub
-//                    progressBar.setVisibility(View.GONE);
-                    if (popupWindow.isShowing()) {
-                        popupWindow.dismiss();
-                    }
-                }
-            }, progressBar, SystemClock.uptimeMillis() + 4000);
-        }
-
-        @Override
-        public void onStartTrackingTouch(VerticalSeekBar VerticalSeekBar) {
-
-        }
-
-        @Override
-        public void onStopTrackingTouch(VerticalSeekBar VerticalSeekBar) {
-
-        }
-
-
-    };*/
+    String ResultStr = "";
 
 
     public CaptureView(Activity activity, Context context) {
@@ -145,9 +105,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
         DisplayMetrics dm = resources.getDisplayMetrics();
         ScreenWidth = dm.widthPixels;
         ScreenHeight = dm.heightPixels;
-
-        //  x=screenResolution.x;
-        // y=screenResolution.y;
 
         hasSurface = false;
         this.setOnTouchListener(new TouchListener());
@@ -171,7 +128,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 
 
     private void initCameraManager() {
-
         CameraManager.get().x = cX + width;
         CameraManager.get().y = cY + height;
         CameraManager.get().MIN_FRAME_WIDTH = MAX_FRAME_WIDTH;
@@ -181,18 +137,7 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
         CameraManager.get().setFocusTime(focusTime);
 
     }
-/*
-    @Override
-    public void onViewAdded(View child) {
-        if (this.viewfinderView == child) return;
-        // remove and readd view to make sure it is in the back.
-        // @TODO figure out why there was a z order issue in the first place and fix accordingly.
-        if (viewfinderView != null) {
-            this.removeView(this.viewfinderView);
-            this.addView(this.viewfinderView);
-        }
-    }*/
-    
+
     /**
      * Activity onResume
      */
@@ -203,7 +148,7 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     }
 
     /**
-     * surfaceview 
+     * surfaceview
      */
     private void init() {
         if (mHandler == null) {
@@ -236,118 +181,28 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
         linearGradientView.setLayoutParams(param);
         linearGradientView.setFrameColor(CORNER_COLOR);
 
-
-//        decodeFormats = null;
         characterSet = null;
-
-
 
         vibrate = true;
 
         setPlayBeep(true);
-//        initProgressBar();
-//        progressBar = new VerticalSeekBar(activity);
-      /*  popupWindowContent = View.inflate(activity, R.layout.seekbar_layout, null);
-        progressBar = (VerticalSeekBar) popupWindowContent.findViewById(R.id.verticalSeekBar);
-        
 
-
-        progressBar.setIndeterminate(false);
-        progressBar.setThumb(null);*/
-//        progressBar.setProgressDrawable(getResources().getDrawable(android.R.drawable.progress_horizontal));
-
-
-//
-
-      /*
-       
-       int[] mColors=  new int[]{Color.WHITE,Color.BLUE};
-        GradientDrawable drawable=new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,mColors);
-        drawable.setGradientType(GradientDrawable.LINEAR_GRADIENT);
-        drawable.setCornerRadius(15);
-        drawable.setStroke(10,-1);
-        */
-
-/*        LayerDrawable progressDrawable = (LayerDrawable) progressBar
-                .getProgressDrawable();
-        Drawable[] outDrawables = new Drawable[progressDrawable
-                .getNumberOfLayers()];
-        for (int i = 0; i < progressDrawable.getNumberOfLayers(); i++) {
-            switch (progressDrawable.getId(i)) {
-                case android.R.id.background:
-                    outDrawables[i] = getResources().getDrawable(R.drawable.seek_bkg);
-                    break;
-                case android.R.id.secondaryProgress:
-                    outDrawables[i] = getResources().getDrawable(R.drawable.seek);
-                    break;
-                case android.R.id.progress:
-                    ClipDrawable oidDrawable = (ClipDrawable) progressDrawable
-                            .getDrawable(i);
-                    Drawable drawable=getResources().getDrawable(R.drawable.seek);
-                    ClipDrawable proDrawable = new ClipDrawable(drawable,
-                            Gravity.LEFT, ClipDrawable.HORIZONTAL);
-                    proDrawable.setLevel(oidDrawable.getLevel());
-                    outDrawables[i] = proDrawable;
-                    break;
-                default:
-                    break;
-            }
-        }
-        progressDrawable = new LayerDrawable(outDrawables);
-        progressBar.setProgressDrawable(progressDrawable);*/
-
-
-        //        progressBar.setBackgroundResource(R.drawable.seek_bkg);
-//        progressBar.setSecondaryProgress(R.drawable.seek);
-//        progressBar.setThumb(getResources().getDrawable(R.drawable.seek_thumb));
-//        progressBar.setMinimumHeight(20);
-
-
-        
         int maxZoom = getMaxZoom();
-        if (maxZoom > 0) {
-//            progressBar.setMax(maxZoom);
-//            progressBar.setOnSeekBarChangeListener(onSeekBarChangeListener);
-        }
-
     }
+
 
     public void setPlayBeep(boolean b) {
         playBeep = b;
         AudioManager audioService = (AudioManager) activity.getSystemService(activity.AUDIO_SERVICE);
         if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
-           playBeep = false;
+            playBeep = false;
         }
         initBeepSound();
     }
 
 
     private void initProgressBar() {
-/*        if (progressBar != null) {
-            LayoutParams progresslp = new LayoutParams(
-                    120,
-                    MAX_FRAME_HEIGHT);
-            
-            int leftMargin = (width / 2) + cX + MAX_FRAME_WIDTH / 2;
-            int topMargin = height / 2 + cY / 2 - MAX_FRAME_HEIGHT;
-//        progresslp.gravity = Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL;
-//            progressBar.setLayoutParams(param);
 
-            // PopupWindow, 200,LayoutParams.MATCH_PARENT
-            popupWindow = new PopupWindow(CaptureView.this);
-*//*            popupWindow.setWidth((int) (20 * density));
-            popupWindow.setHeight(MAX_FRAME_HEIGHT-CORNER_WIDTH*2);
-            popupWindow.setContentView(popupWindowContent);*//*
-
-            popupWindow.setWidth(MAX_FRAME_WIDTH);
-            popupWindow.setHeight(30);
-            popupWindow.setContentView(linearGradientView);
-
-            popupWindow.setBackgroundDrawable(new BitmapDrawable());
-            popupWindow.setFocusable(false);
-            popupWindow.setOutsideTouchable(false);
-
-        }*/
     }
 
 
@@ -360,13 +215,10 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 
             CameraManager.get().initPreviewCallback();
             CameraManager.get().startPreview();
-
         }
-//        decodeFormats = null;
 
         handler = new CaptureActivityHandler(this, decodeFormats,
                 characterSet);
-//        handler.restartPreviewAndDecode();
     }
 
     public void stopScan() {
@@ -396,7 +248,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
         if (handler != null) {
             handler.quitSynchronously();
         }
-
         super.onDetachedFromWindow();
     }
 
@@ -404,8 +255,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     private void initCamera(SurfaceTexture surfaceTexture) {
         try {
             CameraManager.get().openDriver(surfaceTexture);
-
-
         } catch (IOException ioe) {
             return;
         } catch (RuntimeException e) {
@@ -425,39 +274,19 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 
     public void handleDecode(Result obj, Bitmap barcode) {
 
-//        viewfinderView.drawResultBitmap(barcode);
-
-        if (obj != null&& this.decodeFlag) {
+        if (obj != null && this.decodeFlag) {
             playBeepSoundAndVibrate();
             String str = obj.getText();
-        /*
-        activity.getCapturePackage().mModuleInstance.sendMsgToRn(str); 
-            onEvChangeListener.getQRCodeResult(str,obj.getBarcodeFormat()); 
+
         }
-        stopQR();
 
-
-//        viewfinderView.drawResultBitmap(null);
-
-        /*
-        try {
-            Thread.sleep(sleepTime);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        initCamera(textureView.getHolder());
-        if (handler != null) {
-            handler.restartPreviewAndDecode();
-        }*/
-
+        /**
+         *
+         * @param intent
+         * @return
+         */
     }
 
-
-    /**
-     *
-     * @param intent
-     * @return
-     */
     public String ShowResult(Intent intent) {
         return intent.getData().toString();
     }
@@ -486,16 +315,10 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 
     private static final long VIBRATE_DURATION = 200L;
 
-
     private void playBeepSoundAndVibrate() {
         if (playBeep && mediaPlayer != null) {
             mediaPlayer.start();
         }
-        
-      /*  if (vibrate) {
-            Vibrator vibrator = (Vibrator) activity.getSystemService(activity.VIBRATOR_SERVICE);
-            vibrator.vibrate(VIBRATE_DURATION);
-        }*/
     }
 
     /**
@@ -554,8 +377,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     }
 
     public void setcY(int cY) {
-
-
         if (height != 0 && ((cY > height / 2 - Min_Frame_Width) || cY < (Min_Frame_Width - height / 2))) {
             if (cY > 0) {
                 cY = height / 2 - Min_Frame_Width;
@@ -567,6 +388,7 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
         this.cY = cY;
         CameraManager.get().y = cY + height;
         CameraManager.get().framingRect = null;
+
         if (viewfinderView != null) {
             viewfinderView.invalidate();
         }
@@ -630,7 +452,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     }
 
     /**
-     *
      * @param scanTime
      */
     public void setScanTime(int scanTime) {
@@ -646,7 +467,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
             viewfinderView.frameColor = this.CORNER_COLOR;
             viewfinderView.frameBaseColor = reSetColor(this.CORNER_COLOR);
         }
-
     }
 
     /**
@@ -686,9 +506,9 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
         }
     }
 
-    public void OpenFlash(){
+    public void OpenFlash() {
         try {
-            Camera.Parameters param =CameraManager.get().getCamera().getParameters();
+            Camera.Parameters param = CameraManager.get().getCamera().getParameters();
 
             param.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 
@@ -696,14 +516,13 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
         } catch (Exception e) {
             e.printStackTrace();
         }
-    } 
+    }
 
-    public void CloseFlash(){
+    public void CloseFlash() {
         try {
             Camera.Parameters param = CameraManager.get().getCamera().getParameters();
 
             param.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-
 
             CameraManager.get().getCamera().setParameters(param);
         } catch (Exception e) {
@@ -712,18 +531,12 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     }
 
     /**
-     *
      * @param WIDTH
      * @param HEIGHT
      */
     public void setCHANGE_WIDTH(final int WIDTH, final int HEIGHT) {
-        
-//        Toast.makeText(activity, "width" + WIDTH, Toast.LENGTH_SHORT).show();
-        if (viewfinderView != null) {
 
-//            if(popupWindow.isShowing()){
-//                popupWindow.dismiss();
-//            }
+        if (viewfinderView != null) {
 
             int widthScan = (width / 2 - Math.abs(cX)) - CORNER_WIDTH;
 
@@ -754,9 +567,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-//                    stopScan();
-
-
                     int widthScan = (width / 2 - Math.abs(cX)) - CORNER_WIDTH;
 
                     if (widthScan < Min_Frame_Width) {
@@ -777,13 +587,10 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
                     CameraManager.get().MAX_FRAME_HEIGHT = MAX_FRAME_HEIGHT;
 
 
-
                     CameraManager.get().framingRectInPreview = null;
-//                    decodeFormats = null;
                     viewfinderView.drawLine = true;
                     surfaceTexture = textureView.getSurfaceTexture();
-//                    startScan();
-                      startQR();
+                    startQR();
                     initProgressBar();
                 }
 
@@ -802,17 +609,13 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 
                 }
             });
-
             animSet.start();
-
-
         }
 
     }
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-//        Log.i("Test", "height:" + height + "width:" + width);
 
         CameraManager.init(activity);
 
@@ -848,7 +651,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 
     private final class TouchListener implements OnTouchListener {
 
-        
         private static final int MODE_ZOOM = 1;
         private int mode = MODE_ZOOM;
 
@@ -862,22 +664,14 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
                 case MotionEvent.ACTION_DOWN:
                     mode = MODE_ZOOM;
                     startDis = event.getY();
-//                    Log.i("Test", "ACTION_DOWN");
 
-
-//                    int leftMargin = (width / 2) + cX + MAX_FRAME_WIDTH/2-(int)(25*density);
                     int leftMargin = cX / 2 + MAX_FRAME_WIDTH / 2 - (int) (25 * density);
                     int topMargin = cY / 2 - (int) (25 * density);
-
-//                    popupWindow.showAtLocation(v, Gravity.CENTER, leftMargin,topMargin);
-
                     break;
 
                 case MotionEvent.ACTION_MOVE:
                     if (mode == MODE_ZOOM) {
-
                         float endDis = startDis - event.getY();
-
 
                         int scale = (int) (endDis / (ScreenHeight / getMaxZoom()));
 
@@ -886,7 +680,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
                         } else if (scale == 0 && endDis > 0) {
                             scale = 1;
                         }
-//                        Log.i("Test", "scale:" + scale);
 
                         long endTime = System.currentTimeMillis();
 
@@ -899,24 +692,16 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 
                             if (zoom > getMaxZoom()) zoom = getMaxZoom();
                             if (zoom < 0) zoom = 0;
-//                            Log.i("Test", "zoom:" + zoom + ",Time:" + time);
-                            setZoom(zoom);
-//                            progressBar.setProgress(zoom);
 
-//                            startDis = endDis;
+                            setZoom(zoom);
                         }
                     }
                     break;
-
                 case MotionEvent.ACTION_UP:
-
                     break;
             }
             return true;
         }
-
-
-
     }
 
     /**
@@ -959,9 +744,9 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
     }
 
     public void setDecodeFormats(List<String> decode) {
-        decodeFormats=new Vector<BarcodeFormat>();
-        for(BarcodeFormat format : BarcodeFormat.values()){
-            if(decode.contains(format.toString())){
+        decodeFormats = new Vector<BarcodeFormat>();
+        for (BarcodeFormat format : BarcodeFormat.values()) {
+            if (decode.contains(format.toString())) {
                 decodeFormats.add(format);
             }
         }
@@ -970,6 +755,7 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
 
     public interface OnEvChangeListener {
         public void getQRCodeResult(String result, BarcodeFormat format);
+
     }
 
     public void setOnEvChangeListener(OnEvChangeListener onEvChangeListener) {
@@ -989,8 +775,6 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
                 | (startR << 16)
                 | (startG << 8)
                 | (startB);
-
-
     }
 }
 

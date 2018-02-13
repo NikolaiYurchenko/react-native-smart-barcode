@@ -23,7 +23,7 @@ public class DecodeUtil {
 
         opts.inJustDecodeBounds = true;
         opts.inPreferredConfig = Bitmap.Config.RGB_565;
-        
+
         BitmapFactory.decodeFile(path, opts);
         int width = opts.outWidth;
         int height = opts.outHeight;
@@ -36,9 +36,9 @@ public class DecodeUtil {
         opts.inJustDecodeBounds = false;
 //        float scale = Math.max(scaleWidth, scaleHeight);
         float scale = 1.5f;
-        opts.inSampleSize = (int)scale;
+        opts.inSampleSize = (int) scale;
         WeakReference<Bitmap> weak = new WeakReference<Bitmap>(BitmapFactory.decodeFile(path, opts));
-        return Bitmap.createScaledBitmap(weak.get(), (int)(width/scale), (int)(height/scale), true);
+        return Bitmap.createScaledBitmap(weak.get(), (int) (width / scale), (int) (height / scale), true);
     }
 
     public static String getStringFromQRCode(String path) {
@@ -46,7 +46,7 @@ public class DecodeUtil {
 
         Bitmap bmp = convertToBitmap(path);
         byte[] data = getYUV420sp(bmp.getWidth(), bmp.getHeight(), bmp);
-        
+
         try {
             Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>();
 //            hints.put(DecodeHintType.CHARACTER_SET, "utf-8");
@@ -60,7 +60,7 @@ public class DecodeUtil {
                     bmp.getHeight(),
                     false);
             BinaryBitmap bitmap1 = new BinaryBitmap(new HybridBinarizer(source));
-            QRCodeReader reader2= new QRCodeReader();
+            QRCodeReader reader2 = new QRCodeReader();
             Result result = reader2.decode(bitmap1, hints);
 
             httpString = result.getText();
@@ -101,32 +101,30 @@ public class DecodeUtil {
     /**
      * RGB
      *
-     * @param yuv420sp
-     *            inputWidth * inputHeight * 3 / 2
-     * @param argb
-     *            inputWidth * inputHeight
+     * @param yuv420sp inputWidth * inputHeight * 3 / 2
+     * @param argb     inputWidth * inputHeight
      * @param width
      * @param height
      */
     private static void encodeYUV420SP(byte[] yuv420sp, int[] argb, int width,
                                        int height) {
-        
+
         final int frameSize = width * height;
-        
+
         int Y, U, V;
-        
+
         int yIndex = 0;
-        
+
         int uvIndex = frameSize;
 
-        
+
 //      int a, R, G, B;
         int R, G, B;
         //
         int argbIndex = 0;
         //
 
-        
+
         for (int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
 
