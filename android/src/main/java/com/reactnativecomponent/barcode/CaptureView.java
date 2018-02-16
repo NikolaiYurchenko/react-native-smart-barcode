@@ -430,6 +430,7 @@ public class CaptureView extends FrameLayout implements TextureView.SurfaceTextu
         if (obj != null&& this.decodeFlag) {
             playBeepSoundAndVibrate();
             String str = obj.getText();
+        }
         /*
         activity.getCapturePackage().mModuleInstance.sendMsgToRn(str); 
             onEvChangeListener.getQRCodeResult(str,obj.getBarcodeFormat()); 
